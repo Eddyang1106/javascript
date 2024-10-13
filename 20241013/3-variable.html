@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+
+
+        a = 100; //臨時變數，不該這樣做會被罵
+        var b = 200; //宣告變數，跟瀏覽器正式宣告一個變數存在
+        var c; //宣告而已還沒定義數值，只會讀取到undefined
+
+        function test() {
+            var d = 100;  //宣告在一個fn內，他只作用於這個fn作用域內
+            console.log(b); // b是一個全域變數,我可以讀到他
+            console.log(d); // d讀的倒是100
+        }
+
+        test();
+
+        console.log(b);
+        // console.log(d); //不認識d 因為他是個區間變數，我無法得知他
+        console.clear();
+
+        test2();
+        var b = 100;
+        console.log(b);
+
+
+        console.log("b =", b);
+
+        test3();
+
+        console.log("b =", b);
+        ////////////////////////////////
+        if (ture) {
+            var e = 100; // if的{}不是一個缺間是一個區塊，他仍是一個全域變數
+            console.log(e);
+        }
+        consloe.log("e=", e);
+
+        var e = true; //可以重新被宣告，但這是不太好的
+        consloe.log(e);
+
+    </script>
+</body>
+
+</html>

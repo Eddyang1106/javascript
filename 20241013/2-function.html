@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <script>    
+    <script>
         //自訂函式 function， 名字為hello，他沒有傳遞參數(可指定預設值)，他的工作是印出 hello world//
 
 
-        function hello(name = "to you"){
+        function hello(name = "to you") {
             console.log(`hello world',${name} !!`);
         }
 
@@ -20,8 +22,62 @@
         hello("fish");
         hello();
 
+        console.clear();
+
+        //宣告一個變數，這個變數為fn的變數
+        varHello1 = function sayHello(name) { //匿名函式，沒有名字的fn
+            console.log(`hello ${name}!!`);
+        };
+
+        varHello2 = function sayHello(name) { //帶名字的fn
+            console.log(`hello ${name}!!`);
+        };
+
+        (function () {
+            console.log(`hello world`);
+        })(); //左邊()匿名函式宣告，右邊()直接執行
+
+        console.clear();
+
+
+
+        say1 = function (name) {
+
+            str = "hello" + name;
+            return str;
+            console.log("done");
+        };
+
+        ans = say1("loki");
+        console.log(ans);
+
+        say2 = function (name) {
+
+            // str = "hello" + name;
+            return "hello" + name;
+            // console.log("done");
+        };
+
+        // ans = say1("loki");
+        console.log(say2("loki"));
+
+        say3 = function (name) {
+
+            console.log ("-------------");
+            return "hello" + name;
+            
+        };
+
+        console.log(say3("loki"));
+
+
+
+
+
+
 
 
     </script>
 </body>
+
 </html>
