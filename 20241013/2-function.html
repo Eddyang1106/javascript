@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+        //自訂函式 function， 名字為hello，他沒有傳遞參數(可指定預設值)，他的工作是印出 hello world//
+
+
+        function hello(name = "to you"){
+            console.log(`hello world',${name} !!`);
+        }
+
+        // hello(); //名為hello 函式 ，透過()符號執行//
+        hello("pig");
+        hello("cow");
+        hello("fish");
+        hello();
+
+
+
+    </script>
+</body>
+</html>
