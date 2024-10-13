@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //   switch(){
+        //     case "A":
+        //     todo
+        //     break;
+        //     case "B"
+        //     todo
+        //     break
+        //     default:
+        //     todo
+        //     break;        
+        //   }
+
+
+        const lang = "jp";
+        let msg = null;
+
+
+        switch (lang) {
+            case "jp":
+                msg = "阿姨洗鐵路";
+                break;
+            case "kr":
+                msg = "沙拉黑優";
+                break;
+            case "en":
+                msg = "愛老虎由";
+                break;
+            case "hk":
+                msg = "屌裡樓某";
+                break;
+            case "tw":
+                msg = "我愛妳";
+                break; //破壞switch，中止這switch後續工作
+
+            default: "比愛心"; //default可寫可不寫 通常寫在最後面
+                msg = "unknown"
+                break;
+        }
+
+        console.log(msg);
+
+    </script>
+</body>
+
+</html>
