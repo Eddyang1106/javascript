@@ -12,13 +12,48 @@
         let username = "eddy";//變數名稱盡量寫專用名詞不要隨便用代號代入
         let userage = 12;
 
-        let myaryaa = new array(); //正式宣告，透過建構來完成，一班人偷懶不會用這個
+        let myaryaa = new Array(); //正式宣告，透過內建建構式(產生一個大型物件，裡面包含一些可用的原生鍊prototype來完成)來完成，一班人偷懶不會用這個
         let myaryab = [];//空陣列的語法糖果，暴力指定給變數(通常都用這方法寫)
-        let myaryac = new array(1, 2, 3);
+        let myaryac = new Array(1, 2, 3);
 
         let numarr = [1, 2, 3]; //value of array,可以指定N個值，每個值有自己的index(索引)
 
-        
+        //陣列→ unshift是從最前面插入物件 shift適從最前面開始丟出物件  pop是從最後面開丟出物件 push是從最後面插入物件//
+        //根據 push pop shift unshift 來操作陣列增減長度與內容
+        //自行操作不再示範 ex: myAryB.push("B",true,3);
+
+        let aryInit = [1, 2, 3]; //預設值
+        let errCloneAry = aryInit; // 預設ary因為指定，他的記憶體位置都一樣 稱為記憶體汙染(應徵前端工程師面試會考觀念)
+        let realCloneAry = [...aryInit];// 結構與重購，將陣列拆開重新組合新陣列，在指定給b
+
+        let a = [1, 2, 3]; //被複製的固定陣列
+        let b = [...a]; //重構出一個乾淨的陣列，指定給b
+        b.push("A");
+        console.log(b);//B與a是不同陣列，他們的記憶體位置不同
+
+        let c = [...a, "eddy", ...b];
+
+
+        console.clear();
+
+        // a.push("c");
+        a = ["A", ...a, "c"];
+
+        ////////////////////////////////////////////////////////////////////
+
+        function hello() {
+            console.log("hello");
+        }
+        // BigAry = [hello, minAry]; //巢狀arrey,二(N)維陣列
+        let minAry = ["A", "B", "C"];
+        let bigAry = [["A", "B", "C"], [10, 20, 30]]; //巢狀arrey,二(N)維陣列
+
+
+        // let ary1 = [1,2,3];
+        // ary1 = [...ary1 ,4,5,6];
+
+        const ary2 = [1, 2, 3]; //保護變數有無重新指定(記憶體改變)
+        ary2.push("A"); //
     </script>
 </body>
 
