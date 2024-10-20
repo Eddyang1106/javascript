@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let i = 0; //初始語句，初始一個值
+        while (i < 0) { //判定成立
+            // if(i===4) contiune; //小心不要這樣寫繪無限迴圈，注意i++時機
+            console.log("do,i"); //布林值會不斷迴圈，業界上很少人在用while//
+            i++;  // 結束語句，使判定有變化可能性，才能結束迴圈
+        }
+        console.log("done");
+        //example
+        // while(使用者輸入的值 !== 正規表達式指定的密碼規則){
+        //     因情況成立，要求錯誤處理，值道密碼正確才脫離這個錯誤檢查機制
+        //     顯示，密碼格式不對，請重新輸入 
+        //     顯示輸入密的對話框
+        // }
+
+        console.clear();
+
+
+        // do while，相較於while版本，先執行，在判定要不要再做一次
+
+
+        let j = 0;
+        do {
+            console.log(j);
+            j++;
+        } while (j < 5);
+        console.log("done");
+
+
+
+    </script>
+</body>
+
+</html>
