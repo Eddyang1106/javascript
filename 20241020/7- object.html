@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //物件的object 專拿來存資料，陣列拿來計算整理用
+        let stdA = {
+            name: "loki",
+            age: 18,
+            gender: "male",
+            alive: true,
+            say: () => console.log("time is money")
+        };
+
+        // const { name, age, gender, alive, say } = stdA;
+        // const stuB = { name, age, gender, alive, say }
+        // 上面兩行簡寫為下
+        // const stuB = { ...stdA };
+
+        // stdB.name = "eddy";
+        // stdB.age = 20;
+        // stdA = { ...stdB };
+
+        const mdy = {
+            name: "jack",
+            alive: false
+        };
+
+        stdA = { ...stdA, name: "jack", alive: false }
+
+        stdA = {
+            ...stdA,
+            ...mdy
+        };
+
+
+
+    </script>
+</body>
+
+</html>

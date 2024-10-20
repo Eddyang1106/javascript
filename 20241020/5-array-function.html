@@ -15,9 +15,9 @@
         }
 
         ////////////////////////////////
-        // for (let index = 0; idx < ary.length; idx++) {
-        //     console.log(ary[idx]);
-        // }
+        for (let index = 0; idx < ary.length; idx++) {
+            console.log(ary[idx]);
+        }
 
 
         function showMe(val, idx) {
@@ -25,13 +25,30 @@
             // console.log(`index=> ${idx}`);
         }
 
-        ary.forEach(showMe); //foreach 希望你提供一個function，他會試著提供參數給你的fn
+        ary.forEach(showMe); //forEach 希望你提供一個function，他會試著提供參數給你的fn
         //=> 箭頭函式
+        //方法2
         ary.forEach(function (val, idx) {
-            console.log(`index =>${idx},value=>${val}`);
+            console.log(`index? =>${idx},value=>${val}`);
         });
+        //方法2的簡寫
+        ary.forEach((val, idx) => console.log(`index=> ${idx}, value=> ${val}`));
 
 
+        console.clear();
+        for (const item of ary) { //遍歷物件循環提出指定物
+            console.log(item);
+        }
+
+        console.clear();
+        //filter 保留的return true 不要的return false
+        //對陣列移除指定元素，可以用filter弄出新陣列在重新指定給自己
+        ary = ary.filter((val) => val !== "A9");
+
+        console.clear();
+        // map映射 抽取每個元素特定處理 再return放回原位置
+
+        ary = ary.map((val) => val + "~~");
 
 
 
