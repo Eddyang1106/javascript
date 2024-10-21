@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //產生 99乘法表，會有i跟j個別處理兩個變數(2~9,1~9) for會跑9*9次
+        for (let i = 2; i < 10; i++) {
+            for (let j = 1; j < 10; j++) {
+                console.log(`${i}*${j}=${i * j}`);
+            }
+            if (i < 9) console.log(`----------------------------------`);
+        }
+    </script>
+
+</body>
+
+</html>
