@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // setTimeout(todo,time); //todo是要做什麼事 time是
+
+        // setTimeout(function () {
+        //     console.log("BOM!")
+        // }, 3000);
+
+        // setTimeout(() => {
+        //     console.log("BOM!")
+        // }, 3000);
+
+        // console.log("Done");
+
+        const timeTag1 = setTimeout(() => {
+            console.log("BOM!1")
+        }, 5000);
+
+
+        const comboBom = () => {
+            console.log("BOM!1");
+            console.log("BOM!2");
+        }
+
+        const timeTag2 = setTimeout(() => {
+            console.log("BOM!2")
+        }, 6000);
+
+        console.log("Done");
+        clearTimeout(timeTag1); //清掉BOM1產生
+        clearTimeout(timeTag2); //清掉BOM2產生
+
+    </script>
+</body>
+
+</html>

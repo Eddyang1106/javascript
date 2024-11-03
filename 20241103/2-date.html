@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const time = Date(); //字串
+        const now = new Date(); //時間物件
+        // const lastTime1 = new Date(2024, 11, 31);
+        const lastTime = new Date("2024,11,31");
+
+        const monthStr = ["一月", '二月', '三月']
+        const dayStr = ["星期一"]
+        let ans;
+        ans = now.getFullYear(); //西元年
+        ans = monthStr[now.getMonth()]; //月份 0~11，利用陣列來規劃各語系的月份文字
+        ans = now.getDate(); //日期 1~31
+        ans = now.getHours();
+        ans = now.getMinutes();
+        ans = now.getSeconds();
+        ans = now.getMilliseconds();
+        ans = dayStr[now.getDay()];//0~6
+        ans = now.getTime(); //時間戳記，單位是毫秒，將所有的時間換算成總毫秒
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        //計算跨年倒數日時分秒， 利用兩筆時間物件的getTime 相差毫秒，推算月日時分秒
+
+        let diffTime = lastTime.getTime() - now.getTime(); //單位總毫秒
+        diffTime = Math.floor(diffTime / 1000); //單位總秒
+        // console.log(diffTime + "秒");
+
+        // let sec = 4215;
+        // let hh = 0, mm = 0, ss = 0;
+
+        // ss = sec % 60;
+        // mm = Math.floor(sec / 60) % 60;
+        // hh = Math.floor(Math.floor(sec / 60) / 60);
+        // console.log(`${hh}時${mm}分${ss}秒`);
+        // mm = Math.floor(sec / 60);
+        // ss = sec % 60;
+
+        let sec = diffTime;
+        let dd = 0, hh = 0, mm = 0, ss = 0;
+
+        ss = sec % 60;
+        mm = Math.floor(sec / 60) % 60;
+        hh = Math.floor(Math.floor(sec / 60) / 60) % 24;
+        dd = Math.floor(Math.floor(Math.floor(sec / 60) / 60) % 24);
+        console.log(`${dd}天${hh}時${mm}分${ss}秒`);
+
+
+        //-----------------------------------------------------------------------------------------
+        console.clear();
+
+        const nowTime = new Date(); //nowTime不會改變時間 時間會固定在某個時間點
+        console.log(nowTime);
+        nowTime.setDate(nowTime.getDate()+100); //setDate就是現在日期+或-多少天就可以調整日期
+        console.log(nowTime);
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

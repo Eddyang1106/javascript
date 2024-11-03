@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // exam 產生6個數字， 1~49
+        let lottopool = []; //大球池
+        const getball = []; //選中的球
+        for (let i = 1; i < 50; i++) {
+            lottopool.push(`(${i})`); //大球池初始化 (01)~(49)
+        }
+
+        // rand 0~48整數，將這個index找出value
+
+        const rand = (min, max) => { //隨機整數的機器
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        //6抽
+        for (let i = 1; i < 7; i++) {
+            const findIdx = rand(0, 48); //決定哪個序號,序號換球
+            const findball = lottopool[findIdx]; //找到球號 ex(10) 複製存為變數
+            getball.push(findball); //存入選中區 ex(10)
+
+            //清除球池的指定球 ex(10)，利用filter 不要的球回傳false
+            //checkball為檢查每次的球號，findball，為指定球號
+ 
+            lottopool = lottopool.filter(function (checkball) {
+                return checkball !== findball;
+            });
+        }
+
+
+        console.log(getball.sort());
+    </script>
+</body>
+
+</html>
