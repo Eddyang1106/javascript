@@ -44,22 +44,32 @@
         // mm = Math.floor(sec / 60);
         // ss = sec % 60;
 
-        let sec = diffTime;
+        // let sec = diffTime;
+        // let dd = 0, hh = 0, mm = 0, ss = 0;
+
+        // ss = sec % 60;
+        // mm = Math.floor(sec / 60) % 60;
+        // hh = Math.floor(Math.floor(sec / 60) / 60) % 24;
+        // dd = Math.floor(Math.floor(Math.floor(sec / 60) / 60) % 24);
+        // console.log(`${dd}天${hh}時${mm}分${ss}秒`);
+
+
+        let sec = 9999;
         let dd = 0, hh = 0, mm = 0, ss = 0;
+        ss = sec / 60;
+        mm = Math.floor(sec / 60) / 60;
+        hh = Math.floor(Math.floor(sec / 60) / 60) / 24;
+        dd = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24);
 
-        ss = sec % 60;
-        mm = Math.floor(sec / 60) % 60;
-        hh = Math.floor(Math.floor(sec / 60) / 60) % 24;
-        dd = Math.floor(Math.floor(Math.floor(sec / 60) / 60) % 24);
+
+
         console.log(`${dd}天${hh}時${mm}分${ss}秒`);
-
-
         //-----------------------------------------------------------------------------------------
-        console.clear();
+        // console.clear();
 
         const nowTime = new Date(); //nowTime不會改變時間 時間會固定在某個時間點
         console.log(nowTime);
-        nowTime.setDate(nowTime.getDate()+100); //setDate就是現在日期+或-多少天就可以調整日期
+        nowTime.setDate(nowTime.getDate() + 100); //setDate就是現在日期+或-多少天就可以調整日期
         console.log(nowTime);
 
 
