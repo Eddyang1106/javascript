@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="button" id="ock" value="try me">
+    <input type="button" value="取消 todo3 from html" onclick="clearover()">
+    <input type="=button" if="cancel1" value="取消 todo3 from js">
+    <hr>
+    <input type="password" value="1234"> <button>hide</button>
+    <script>
+        const ock = document.querySelector("#ock");
+        // ock.addEventListener(event, todo function);
+        // ock.addEventListener("click", () => {
+        //     console.log("click");
+        // });
+        function todo1() {
+            console.log("click1");
+        }
+        const todo2 = () => console.log("click2");
+        const todo3 = function () { console.log("click3"); }
+
+        ock.addEventListener("click", todo1);
+        ock.addEventListener("mouseover", todo2);
+        ock.addEventListener("click", todo3);
+
+        document.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+        });
+
+        function clearListener() {
+            ock.removeEventListener("click", todo3);
+        }
+
+        const removeBtn = document.querySelector("#cancel1");
+        removeBtn.addEventListener("click", clearListener);
+
+        ///////////////////////////////////////// bonus show/hide password////////////////////////////////////////////
+        const pwd = document.querySelector("input[type=password]");
+        const pwdSwitch = document.querySelector("input[type=password]+button");
+
+        pwdSwitch.addEventListener("mousedown", function () {
+            pwd.type = "text";
+            this.innerHTML = "show";
+        });
+        pwdSwitch.addEventListener("mouseup", function () {
+            pwd.setAttribute = ("type", "password");
+            this.innerHTML = "hide";
+        });
+        pwdSwitch.addEventListener("mouseout", function () {
+            pwd.type = "password";
+            this.innerHTML = "hide";
+        });     
+    </script>
+</body>
+
+</html>

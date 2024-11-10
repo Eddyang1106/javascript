@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="demo">按這裡，由 DOM 觸發 JS</p>
+    <!-- <button onclick="add()">按這裡由 HTML 觸發 JS</button> -->
+    <div class="group">
+    </div>
+    <script>
+        const demo = document.querySelector("#domo");
+
+        demo.addEventListener('click', () => {
+            const btn = document.createElement("botton");
+            btn.textContent = "按鈕";
+            btn.style.color = "red";
+            const myLink = document.createElement("button");
+            myLink.textContent = "連結";
+            myLink.style.background = "black";
+            myLink.style.color = "white";
+
+
+            // document.querySelector("body").appendChild(btn);
+            
+            document.querySelector(".group").replaceChild("beforeend",btn);
+            console.log(btn);
+        });
+    </script>
+</body>
+
+</html>
