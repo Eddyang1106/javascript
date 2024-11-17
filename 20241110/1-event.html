@@ -5,63 +5,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .highLight {
+            color: red;
+            font-size: 2rem;
+        }
+
+        ;
+
+        .demo {
+            background: yellow;
+        }
+
+        ;
+    </style>
 </head>
 
 <body>
-    <input type="button" value="onclick demo" onclick="showalert('我是 onclick 效果')">
+
+    <input type="button" class="aa" value="onclick demo" id="demo" onclick="showAlert('這是 click 簡單操作')">
     <hr>
-    <input type="button" value="on click" id="loki" onclick="whatIs(this)">
+    <input type="button" value="onclick" id="loki" onclick="whatIs(this)" >
     <hr>
 
-    <input type="button" value="onmousedown" onmousedown="whatIs(this)">
+    <!-- <input type="button" value="onmousedown" onmousedown="whatIs(this)">
     <input type="button" value="onmouseup" onmouseup="whatIs(this)">
     <input type="button" value="onmouseover" onmouseover="whatIs(this)">
     <input type="button" value="onmouseout" onmouseout="whatIs(this)">
-    <input type="text" value="onchange" onchange="whatIs(this)">
-    <input type="text" value="onblur" onblur="whatIs(this)">
-    <input type="text" value="onfocus" onfocus="whatIs(this)">
-    <input type="password" value="" onchange="chkPWD(this)"><small id="pwd-info"></small>
+    <input value="onchange" onchange="whatIs(this)">
+    <input value="onblur" onblur="whatIs(this)">
+    <input value="onfocus" onfocus="whatIs(this)">
 
-    <div id="fakeBtn">123</div>
+    <div id="fakeBtn"></div>
     <hr>
-    <div>你按下的鍵盤(<span id="codename"></span>)號碼為：<span id="keycode"></span></div>
+    <div>你的鍵盤號碼為：<span id="keycode"></span></div> -->
+
     <script>
-        function showalert(msg) { //鎖右鍵選單(取消預定事件)
-            console.log(msg);
+        function showAlert(msg) {  //////這個也很常用，看你喜歡用哪一種///////
+            console.log(msg)
+        };
+        // function showAlert(msg) {
+        //     // console.log(msg);
+        //     const node = document.getElementById("demo");
+        //     // console.log(node.value);
+        //     // console.log(node.color);
+        //     node.value = "hello world";
+
+        // //method 1//
+        // node.style.color = "red";
+        // node.style.fontSize = "2rem";
+
+        // //method 2//
+        // // node.style = "color:red; font-size: 2rem"; //可以這樣寫//
+        // node.style = `
+        // color:red; 
+        // font-size: 2rem
+        // `;  //也可以用字串模板來寫//
+        // console.log(node.style);
+
+        //method 3//
+        // node.className = "demo.active";   //暴力改法//
+        // node.classList.add("active");
+
+        const whitIs = function () {
+            const node = myLoki; //document.getElementById("demo");
+            node.value = "hello loki";
+            node.classList.add("active");
         };
 
 
 
-        document.oncontextmenu = function (event) {
-            console.log(123);
-        };
-
-        const whatIs = function () {
-            const node = document.getElementById("loki");
-            console.log(node.value);
-        };
-        ///////////////////////////keyboard event///////////////////////////////////
-        document.onkeydown = function (event) {
-            // console.log(loki);
-            if (event.keyCode !== 465) {
-                return;
-            }
-            event.preventDefault();//要求取消預設行為
-            document.querySelector("#codeName").innerHTML = event.code;
-            document.querySelector("keyCode").innerHTML = event.Keycode;
-
-        };
 
 
-
-        ///////////////////////////winow event////////////////////////////////
-        window.onresize = function (e) { //觸發e  window可寫可不寫
-            console.log(e)
-            console.log(window.innerHeight);
-            console.log(document.querySelector("#loki").value);
-        };
+        // const whatIs = function () { //////這個也很常用，看你喜歡用哪一種///////
+        //     console.log(loki)
+        // // };
+        // const whatIs = function () {
+        //     const node = document.getElementById("loki");
+        //     console.log(node.value);
+        //     console.log(node.style.color);
+        // };
 
     </script>
+
+
 </body>
 
 </html>

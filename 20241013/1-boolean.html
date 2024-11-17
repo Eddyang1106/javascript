@@ -16,18 +16,18 @@
         strNum = '200'; 
 
 
-        console.log(a == b);
-        console.log(a != b);
+        console.log(a == b);//ture
+        console.log(a != b); //false 不等於使用!+= 來表示
 
-        console.log(a == c);
-        console.log(a != c);
+        console.log(a == c); //false
+        console.log(a != c); // ture 不等於使用!+= 來表示
         
 
 
         console.clear();
 
-        console.log(c == strNum);
-        console.log(c === strNum); 
+        console.log(c == strNum); // ture,因為==是比較不嚴謹的比較，不會分別是數字還是字串
+        console.log(c === strNum); //false，當使用===是完全的等於比較，嚴謹的包含考慮是否是數字跟字串的差異
         console.log(c !== strNum); 
 
 
