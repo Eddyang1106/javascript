@@ -1,0 +1,165 @@
+@charset "UTF-8";
+
+* {
+    font-family: 微軟正黑體;
+}
+
+body {
+    height: 1000px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: bold;
+}
+
+nav.navbar {
+    transition: 0.4s;
+}
+
+nav.navbar.navbar-default.navbar-fixed-top.navbar-top {
+    background-color: transparent;
+}
+
+nav.navbar.navbar-default.navbar-fixed-top.navbar-top a {
+    color: white;
+    transition: 0.5s;
+}
+
+nav.navbar.navbar-default.navbar-fixed-top.navbar-top a:hover {
+    color: #EECE4E;
+}
+
+header.jumbotron {
+    text-align: center;
+    background-image: url(https://awiclass.monoame.com/img/web1_print/print.jpeg);
+    background-size: cover;
+    background-attachment: fixed;
+    margin-bottom: 0px;
+}
+
+header.jumbotron .container {
+    color: white;
+    padding: 200px 0px;
+}
+
+header.jumbotron hr {
+    max-width: 50px;
+    border: solid 2px #EECE4E;
+}
+
+header.jumbotron h4 {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: normal;
+}
+
+section {
+    padding: 50px 0px;
+}
+
+section#section_ask {
+    background-color: #EECE4E;
+}
+
+section#section_ask .col-sm-5.img {
+    background-image: url(https://awiclass.monoame.com/img/web1_print/ancient_print.jpeg);
+    height: 350px;
+    mix-blend-mode: multiply;
+}
+
+section#section_ask h2 {
+    margin-top: 130px;
+    padding: 0px 20px;
+}
+
+section#section_about img {
+    width: 130%;
+}
+
+section#section_about .img_wrap {
+    height: 220px;
+    overflow: hidden;
+}
+
+section#section_story {
+    background-color: #222;
+    color: white;
+    padding: 0;
+}
+
+section#section_story .col-sm-5 {
+    background-image: url(https://awiclass.monoame.com/img/web1_print/map.gif);
+    height: 400px;
+    background-size: 100% auto;
+}
+
+section#section_story .col-sm-5 .cross {
+    position: absolute;
+    left: 23%;
+    top: 40%;
+    color: blue;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+section#section_story .col-sm-7 {
+    text-align: center;
+}
+
+section#section_story .col-sm-7 i {
+    font-size: 40px;
+}
+
+section#section_story .col-sm-12.features {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+section#section_future img {
+    width: 100%;
+}
+
+section#section_future i {
+    font-size: 40px;
+}
+
+section#section_future .future {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+footer.jumbotron {
+    text-align: center;
+    background-image: url(https://awiclass.monoame.com/img/web1_print/print.jpeg);
+    background-size: cover;
+    background-attachment: fixed;
+    margin-bottom: 0px;
+}
+
+footer.jumbotron input {
+    background-color: transparent;
+    max-width: 300px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer.jumbotron .container {
+    color: white;
+    padding: 60px 0px;
+}
+
+footer.jumbotron hr {
+    max-width: 50px;
+    border: solid 2px #EECE4E;
+}
