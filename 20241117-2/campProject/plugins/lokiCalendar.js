@@ -1,8 +1,8 @@
-//宣告全域變數
 dayjs.locale('zh-tw')
 dayjs.extend(dayjs_plugin_isSameOrBefore);
 dayjs.extend(dayjs_plugin_isBetween);
 
+//宣告全域變數
 let
     apiPath = "./db.json",
     booked = [],
@@ -34,15 +34,13 @@ const init = () => {
             // nationalHoliday = json.nationalHoliday;
             ({ booked, pallet, nationalHoliday } = json);
 
-            myCalender = runCalenderServise();//你創造一個服務原生函式，他提供一些method,像是print add sub
-
+            const myCalender = runCalenderServise(); //你創造一個服務原生函式，他提供一些method,像是print add sub
             myCalender.print(); //對這個原生函式調用print ，產生DOM
 
             //規劃DOM事件
             document.querySelector('a[href="#prevCtrl"]').onclick = (e) => {//差，用HTML屬性click來綁定JS函式
                 e.preventDefault();
                 myCalender.add();
-
             };
             document.querySelector('a[href="#prevCtrl"]').addEventListener("click", (e) => { //優， 用JS還規劃event
                 e.preventDefault();
@@ -53,22 +51,33 @@ const init = () => {
 
     const runCalenderServise = () => {
         let theDay = dayjs();
+        let
+            calLeft = {
+                title: "",
+                listbox: "",
+                thisDate: theDay, //今天時間當作當月的代表日
+            },
+            calRight = {
+                title: "",
+                listbox: "",
+                thisDate: theDay.add(1, 'M'), //下個月的時間 當作次月代表日
+            };
 
         const
             today = dayjs(),
             userChooseDays = [null, null],
-            changeMonth = (type) => {//先歸零，重新計算該有的title跟 listbox
+            changeMonth = (num) => {//先歸零，重新計算該有的title跟 listbox
                 theDay = theDay.add(num, "M"); //今天的時間物件，透過第三方套件獲取
 
                 calLeft = {
                     title: "",
                     listBox: "",
-                    thisDate: theDay, //改變該月份代表日
+                    thisDate: theDay, //改變該月份代表日 
                 };
                 calRight = {
                     title: "",
                     listBox: "",
-                    thisDate: theDay.add(1, "M"),//改變該月份代表日，用大M等價month
+                    thisDate: theDay.add(1, "M"), //改變該月份代表日，用大M等價month
                 };
             },
             chooseList = (node) => { //負責將現有DOM規劃 selectHead, selectFoot， selectConnect
@@ -121,32 +130,29 @@ const init = () => {
                     obj.listBox += `<li class="JsCal"></li>`;
                 }
 
-                for (let i = 1; i < totalDay; i++) { //控制產生多少空白日
+                for (let i = 1; i <= totalDay; i++) { //控制產生多少日期
+                    let calssStr = "Jscal"; //將calss獨立為一個變數，有必要可以追加 class name
                     //過期判定//
-                    const tempDay = obj.thisDate.date(i); //每次回圈的數字轉換為當月指定日的time object.
-                    const tempDayStr = tempDay.format('YYYY-MM-DD'); //將time object轉換成字串,ex 2024-12-02
-                    if (tempDay.isSameOrBebore(today)) calssStr += 'delDay';//透過isSameOrBrfore功能，該日跟今天比較，符合相同日或早於為true，代表過期
-                    else { //沒過期，才考慮追加以下class可能
 
+                    const tempDay = obj.thisDate.date(i); //每次回圈的數字轉換為當月指定日的time object.
+                    if (tempDay.isSameOrBefore(today)) classStr += "delDay";//透過isSameOrBrfore功能，該日跟今天比較，符合相同日或早於為true，代表過期
+                    else {//沒過期，才考慮追加以下class可能
+
+                        const tempDayStr = tempDay.format("YYYY-MM-DD") //將time object轉換為字串, ex: "2024-12-02"
 
                         //假日判定，包含周末和國定假日//
-                        const isNationalHoliday = nationalHoliday.includes(tempDay.format("YYYY-MM-DD"));
+                        const isNationalHoliday = nationalholiday.includes(tempDayStr);
                         if (((firstDay + i) % 7 < 2) || isNationalHoliday) classStr += "holiday";
 
                         //滿帳，預定完的日子
-                        //單次迴圈下，目前為2024-12-02
-                        const checkBookDay = booked.find((bookObj) => bookObj.date === tempDayStr); //找到就吐回來，沒找到會undefined 
-
+                        //單次迴圈下，例如目前為2024-12-02，透過book find比對有沒有找到 booked.date跟2024-12-02一樣
+                        const checkBookObject = booked.find((bookObj) => bookObj.date === tempDayStr); //找到就吐回來，沒找到就會是undefind
                         if (
-                            checkBookObject //當天有出現在booked裡面
-                            && //接著同時
-                            (pallet.count === Object.values(checkBookObject.sellout).reduce((prev, cur) => prv + cur, 0))//總和等於總售出
-                        ) classStr += "fullDay";
-
-                        //可以選擇的日子select Day
-                        classStr += "selectDay";
+                            checkBookObject // 當天有出現在booked裡面
+                            &&//接著,同時
+                            (pallet.count === Object.values(checkBookObject.sellout).reduce((prv, cur) => prv + cur, 0)))//總和等於總售出 
+                            calssStr += "fullDay";
                     }
-
 
 
                     obj.listBox += `<li class="${classStr}" data-date="${tempDayStr}">${i}</li>`;
@@ -222,36 +228,37 @@ const init = () => {
                 const tdRemain = tdSellInfo.previousElementSibling.querySelector("span");
                 tdRemain.textContent = countOption;
 
-                document.querySelector("#selectPallet h3").textContent =`
+                document.querySelector("#selectPallet h3").textContent = `
                 $${tableData.totalPrice} / ${tableData.normalCount}晚平日,${tableData.holidayCount}晚假日
                 `;
 
             });
         }
+    //listPrint();
+    return {
+        print: () => listPrint(),//外面的人可以控制service 何時才要輸出萬年曆
+        add: () => {
+            changeMonth(1); //改變 this Date月份
+            listPrint(); //再輸出一次
+        },
+        sub: () => {
+            changeMonth(-1); //改變 thisDate月份
+            listPrint(); //再輸出一次
+        },
+
+        choose: item => {
+            console.log(item);
+            //如何某個詭異情況，忽略這次的動作
+            if (true) return;
+            chooseList(item);
+            //不再這個詭異情況時可以做
+            // if(!true) chooseList(item);
+        },
+        tableRefresh: () => tablePrint()
+    };
 
 }
-//listPrint()
-return {
-    print: () => listPrint(),//外面的人可以控制service 何時才要輸出萬年曆
-    add: () => {
-        changeMonth(1); //改變 
-        listPrint();
-    },
-    sub: () => {
-        changeMonth(-1);
-        listPrint();
-    },
 
-    choose: item => {
-        console.log(item);
-        //如何某個詭異情況，忽略這次的動作
-        if (true) return;
-        chooseList(item);
-        //不再這個詭異情況時可以做
-        // if(!true) chooseList(item);
-    },
-    tableRefresh: () => tablePrint()
-};
 
 
 init();
