@@ -7,19 +7,19 @@ let
     apiPath = "./db.json",
     booked = [],
     nationalHoliday = [],
-    pallet = {};
-myCalender = null;
-tableData = {
-    totalPrice: 0,
-    normalCount: 0,
-    holidayCount: 0,
-    pallet: {
-        aArea: { title: '河畔 × A 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
-        bArea: { title: '山間 × B 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
-        cArea: { title: '平原 × C 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
-        dArea: { title: '車屋 × D 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 }
-    }
-};
+    pallet = {},
+    myCalender = null,
+    tableData = {
+        totalPrice: 999,
+        normalCount: 1,
+        holidayCount: 5,
+        pallet: {
+            aArea: { title: '河畔 × A 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
+            bArea: { title: '山間 × B 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
+            cArea: { title: '平原 × C 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 },
+            dArea: { title: '車屋 × D 區', sellCount: 0, sellInfo: '<div></div>', sumPrice: 0, orderCount: 0 }
+        }
+    };
 
 
 
@@ -35,6 +35,7 @@ const init = () => {
             ({ booked, pallet, nationalHoliday } = json);
 
             const myCalender = runCalenderServise(); //你創造一個服務原生函式，他提供一些method,像是print add sub
+
             myCalender.print(); //對這個原生函式調用print ，產生DOM
 
             //規劃DOM事件
@@ -47,6 +48,91 @@ const init = () => {
                 myCalender.sub();
 
             });
+
+            const nodeSelect = document.querySelectorAll("select");
+
+            nodeSelects.forEach(nodeSelect => { //每個下拉選單個別發生事件時，都要重0計算總價
+                nodeSelect.onchange = (e) => {
+                    tableData.totalPrice = 0;
+                    nodeSelects.forEach(item => { //總價就是當下畫面的4組相加(下拉數量 * 小計 sumPrice)
+                        tableData.totalPrice += parseInt(item.value) * tableData.pallet[item.name].sumPrice;
+
+                        //更新tableData的四組orderCount,方便下一步驟可以直接獲取當下的選擇情況(不用再DOM去找 select value)
+                        tableData.pallet[item.name].orderCount = parseInt(item.value);
+                    });
+
+                    //要更新畫面上的總價格，但不需要整個tablePrint(會大更新)，只需要更新html上面的小範圍就好
+                    document.querySelector("#selectPallet h3").textContent = `
+                    $${tableData.totalPrice} / ${tableData.normalCount}晚平日,${tableData.holidayCount}晚假日`;
+                }
+            });
+
+
+            document.querySelector("#selectPallet button").onclick = (e) => { //點擊立即預約按鈕
+
+                //將tableData 想辦法整理到彈窗html上 是呼喊orderOffcanvas出現
+                const orderOffcanvas = new bootstrap.offcanvas(".offcanvas"); //左側談窗的bootstrap建構函式,可以操作動作
+                const nodeOffcanvasf = document.querySelector("#orderForm"); //左側談窗的html元素
+                let lister = "";
+
+                //將tableData四組資料跑出來
+                for (const key in tableData.pallet) {
+                    if (tableData.pallet[key].orderCount === 0) continue;
+
+                    //如果走到這  但表有選擇1以上 接著我們整合到liStr
+                    liStr += `
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+            <div class="fw-bold">${tableData.pallet[key].title}</div>
+            <div>
+                ${tableData.pallet[key].sellInfo}
+            </div>
+            </div>
+            <span class="badge bg-warning rounded-pill">x (span class="fs-6">${tableData.pallet[key].orderCount}</span>帳</span>
+            </li>
+            `;
+
+                }
+
+                document.querySelector("ol").innerHTML = liStr;
+                document.querySelector(".card-header.h5").textContent = document.querySelector("#selectPallet h3").textContent;
+                orderOffcanvas.show();
+
+            }
+            document.querySelector("#orderForm").onsubmit = (e) => {
+                e.preventDefault(); //阻擋html from遇到submit 會發生指向action動作，這時候要阻擋預設行為
+                // 1.客製化表單資料 除了form 3組 多手動應加2組
+                const sendData = new FormData(e.target);
+
+                // 手動兩個表單欄位，擴增到此sendData，就不需要在html上面做隱藏欄位
+                // const selectDate = ["2024-12-11","2024-12-12"];
+                const selectDate = [...document.querySelectorAll("li.selectHead,li.selectConnect")].map(i => i.dataset.date);
+                sendData.append("selectDate", JSON.stringify(selectDate)); //value必須是一個JSON字串 html表單沒有object這種值
+
+                // ex: const sellout ={"aArea":2, "bArea": 2, "cArea": 0, "dArea":4}; //目標產生這樣的JSON字串塞入FormData
+                const cellout = {};
+                ["aArea", "bArea", "cArea", "dArea"].forEach(key => { //method1//
+                    // Object.keys(tableData.pallet).forEach(key=>)
+                    sellout[key] = tableData.pallet[key].orderCount
+                })
+                sendData.append("selectDate", JSON.stringify(sellout)); //value必須是一個字串 html表單沒有boject這種值
+                // 2.驗證表單有效性//
+                if (!e.target.checkValidity()) e.target.classList.add("was-validated")
+                else {
+                    //3.送出表單
+                    fetch('https://jsonplaceholder.typicode.com/posts', {
+                        method: 'POST',
+                        body: sendData,
+                    }).then(response => response.json())
+                        .then(res => {
+                            if (res.id) {
+                                alert("感謝您的預約，您的訂單編號為:" + res.id);
+                                document.location.reload();
+                            }
+                        });
+                }
+            };
+            myCalender.tableRefresh();// 網頁載入的第一次 tablePrint
         });
 
     const runCalenderServise = () => {
@@ -66,6 +152,7 @@ const init = () => {
         const
             today = dayjs(),
             userChooseDays = [null, null],
+            InitTableDataStr = JSON.stringify(tableData), //轉為普通字串，脫離物件導向觀念
             changeMonth = (num) => {//先歸零，重新計算該有的title跟 listbox
                 theDay = theDay.add(num, "M"); //今天的時間物件，透過第三方套件獲取
 
@@ -170,6 +257,50 @@ const init = () => {
 
                 return obj;
             },
+            tableMaker = () => {
+                //負責翻新全域變數的tableData
+                tableData = JSON.parse(InitTableDataStr); //利用字串轉物件，會整個產生一個新物件，絕對跟原本的物件不一樣
+
+                // 1.修正 sellCount，先取得total，再根據訂單一個個減少
+                for (const key in tableData.pallet) { // 獲得四組pallet名字，回頭對tableData修改sellCount
+                    tableData.pallet[key].sellCount = pallet[key].total;//10
+                }
+
+                //2. 去得知user選啥AB日期
+                document.querySelectorAll("li.selectHead, li.selectConnect").forEach(nodeLi => {
+                    // console.log(key, nodeLi.dataset.date); //2024-12-11
+                    for (const key in tableData.pallet) {
+                        const hasOrder = booked.find(bookItem => booknodeLi.date === nodeLi.dataset.date); //arrow fi os more faster
+                        // 2-1.如果後端有找到當天的訂單，更新防況的剩餘數
+                        if (hasOrder) {
+                            //再連續的訂單日子可以賣給客人的房數必須是這些剩餘房況的最小值
+                            tableData.pallet[key].sellCount = Math.min(tableData.pallet[key].sellCount, pallet[key].total - hasOrder.sellout[key]);
+                        }
+                        //2-2.如果結論為房況有剩，顯示該key的sellInfo販售資訊 (日期/每帳價格) ;沒剩就顯示已完售
+                        if (tableData.pallet[key].sellCount) {
+                            // const dayPrice = nodeLi.classList.contains("holiday") ? pallet[key].holidayPrice : pallet[key].normalPrice; //method 1 //
+                            const dayPrice = pallet[key][nodeLi.classList.contains("holiday") ? "holidayPrice" : "normalPrice"]; // method 2//
+
+                            // console.log(nodeLi.dataset.date, dayPrice); //日期
+                            tableData.pallet[key].sellInfo += `<div>${nodeLi.dataset.date}(${dayPrice}</div>)`;
+                            tableData.pallet[key].sumPrice += dayPrice;
+                        } else {
+                            tableData.pallet[key].sellInfo = `<div>已售完</div>`;
+                            tableData.pallet[key].sumPrice = 0;
+                        };
+                    };
+
+                    //2-3.根據user選的日期，判斷有沒有class holiday ，疊加假日或平日數量
+                    // nodeLi.classList.contains("holiday") ? tableData.holidayCount++ : tableData.normalCount++; //method1
+                    tableData[nodeLi.classList.contains("holiday") ? "holiday" : "normalCount"]++; //method2 
+                });
+                console.log(tableData);
+
+
+
+                tablePrint(); //因為user choose A B日期，觸發的tablePrint (這裡會對全域變數的tableData進行刷新畫面輸出)
+
+            },
             listPrint = () => { // 輸出到DOM
                 // console.log(listMaker(calLeft).listBox);
                 const newCalLeft = newCalLeft;//把乾淨的calc物件丟進去得到更新後的calc物件，拿來使用
@@ -227,10 +358,12 @@ const init = () => {
                 // CSSMathMax.previousElementSibling.children.item(1).children.item(0).innerHTML=99
                 const tdRemain = tdSellInfo.previousElementSibling.querySelector("span");
                 tdRemain.textContent = countOption;
-
+                //更新 tableData的四組orderCount，方便下一步驟
                 document.querySelector("#selectPallet h3").textContent = `
                 $${tableData.totalPrice} / ${tableData.normalCount}晚平日,${tableData.holidayCount}晚假日
                 `;
+                //如果0元訂單就不開放立即預約的按鈕
+                document.querySelector("#selectPallet button").disable = tableData.totalPrice === 0;
 
             });
         }

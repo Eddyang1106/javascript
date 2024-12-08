@@ -5,4 +5,4 @@ $(window).scroll(function (evt) {
         $(".navbar").addClass("navbar-top");
 });
 
-var s = skrollr.init();
+let s = skrollr.init();
