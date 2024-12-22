@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jqajax-animal</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    
+</head>
+
+<body>
+    <div class="add-zone">
+        <div>＋</div>
+    </div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>編號</td>
+                <td>動物名</td>
+                <td>重量</td>
+                <td>簡介</td>
+                <td>更新日期</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <hr>
+                </td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr colspan="6">
+                <hr>
+            </tr>
+
+            <tr>
+                <td colspan="6" style="text-align: center;">
+                    <hr>
+                    <button>載入更多</button>
+                </td>
+            </tr>
+        </tfoot>
+        <div class="insertzone" style="display: none;">
+            <!-- 
+              這裡不先寫好 HTML 是因為我們網頁不會重整，因此第二次進行新增時 HTML 子元素需要清掉
+              因此直接由 JavaScript 來設計較適宜
+            -->
+        </div>
+    
+    <script>
+        //............................................初始宣告區
+        let start = 0;
+        const loadBtn = $("tfoot button");
+        const addBtn = $(".add-zone div");
+        const selectAnimal = () => {
+            $.post("http://192.168.211.1/api.php?do=select", { start }, function (data) {
+                if (data !== "fail") {
+                    $("tbody").append(data);
+                    //.............................新的html的事件區
+                    // 此時新生成的mdyBtn，沒有要求click
+                    $(".mdy").click(changeTOInput);
+
+                    start += 10;
+                } else loadBtn.attr("disabled", true).text("沒有更多資料了");
+            }, "html");
+        }
+
+        const changeAnimal = (e) => {
+            const saveBtn = $(e.target);
+            const data = saveBtn.parents("tr").find("input").serialize();
+            $.post("http://192.168.211.1/api.php?do=select",
+                data,
+                function (res) {//後端會返回更新時間給前端，想辦法把更新資料補回畫面上
+                    // console.log("done");
+                    //將目前HTML畫面上的input修正回普通的table td(更新後的文字)
+                    const uncles = saveBtn.parent().siblings();
+
+                    const
+                        id = uncles.eq(0).find("input").val(),
+                        name = uncles.eq(1).find("input").val(),
+                        weigh = uncles.eq(2).find("input").val(),
+                        intro = uncles.eq(3).find("input").val(),
+                        theTime = res;
+                    const data = {
+                        id,
+                        name,
+                        weight,
+                        info
+                    }
+
+                    uncles.parent().html(`
+                        <td<${id}</td>
+                        <td class="name">${name}</td>
+                        <td>${weigh}</td>
+                        <td>${info}</td>
+                        <td>${theTime}</td>
+                        <td>
+                            <button class="mdy">修改</button>
+                            <button onlick= "deleteAnimal(this)">刪除</button>
+                        </td>
+                        `).find(".mdy").click(changeToInputEl);
+
+
+                })
+        }
+        const deleteAnimal = (node) => {
+
+            const id = $(node).parent().siblings().eq(0).text();
+
+
+            $.post("http://192.168.211.1/api.php?do=delete", { id }, function (res) {
+                if (res === "success") { //確認後端刪除成功，前端才會跟著同步做畫面刪除
+                    $(node).parents("tr").remove();
+                    // $(node).parent().parent().remove();
+                }
+            });
+
+            // const delBtn = $(e.target);
+            // console.log(delBtn);
+
+        }
+        //此fn負責將該執行指定的input內容，壓縮成serialize(form data)透過AJAX提交給後端
+        const insertAnimal = (node) => {
+            const data = $(node).parents().siblings().find("input").serialize();
+            // console.log(data);
+
+            $.post("http://192.168.211.1/api.php?do=insert", data, function (res) {
+                if (res === "inserted") {
+                    closeAddForm(); //關閉新增畫面
+                    
+                    //因為資料多一筆，如果不想去判斷畫面何時要插入最後一筆到tbody內
+                    //這裡乾脆全部reset 重跑selectAnimal
+                    $("tbody").empty();
+                    start = 0;
+                    selectAnimal();
+                }
+            });
+        }
+        // 此fn負責將執行指定的td內容變成input
+        const changeToInputEl = (e) => {
+            const currenMdyBtn = $(e.target);
+            const uncles = currenMdyBtn.parent().siblings();
+
+            currenMdyBtn.parents("tr")
+                .html(`
+            <td>${uncles.eq(0).text()}</td>
+            <td class="name">
+                <input value="${uncles.eq(1).text()}">
+            </td>
+            <td>
+                <input value="${uncles.eq(2).text()}">
+            </td>    
+            <td>
+                <input value="${uncles.eq(3).text()}">
+            </td>  
+            <td>
+                ${uncles.eq(4).text()}</td>
+            <td>
+                <button class="save">儲存</button>
+                </td>
+            `).find(".save").click(changeAnimal);
+        }
+
+        const activeAddForm = () => {
+
+            $(".insert-zone")
+                .html(`
+            <form action="">
+                <h1>新增動物資料</h1>
+                <hr>
+                <p>動物名稱：<input type="text" name="name"></p>
+                <p>動物重量：<input type="text" name="weight"></p>
+                <p>動物簡介：<input type="text" name="info"></p>
+                <hr>
+                <p>
+                    <!--注意 button沒有 type會形同submit -->
+                    <button type="button" onlick="insertAnimal(this)">新增</button>
+                    <button type="button" onlick="classAddForm()">取消</button>
+                </p>                
+            </form>
+            `).fadeIn();
+        }
+        const closeAddForm = () => {
+            $(".insert-zone").fadeOut();
+        }
+        //------------------------初始事件區
+
+        loadBtn.click(selectAnimal);
+        addBtn.click(activeAddForm);
+
+
+        //--------------------------------初始第一次執行
+
+        selectAnimal();
+
+
+    </script>
+</body>
+
+</html>
