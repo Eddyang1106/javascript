@@ -25,7 +25,6 @@
         const lang = "jp";
         let msg = null;
 
-
         switch (lang) {
             case "jp":
                 msg = "阿姨洗鐵路";
@@ -43,11 +42,11 @@
                 msg = "我愛妳";
                 break; //破壞switch，中止這switch後續工作
 
-            default: "比愛心"; //default可寫可不寫 通常寫在最後面
+            default: "比愛心"; //default可寫可不寫 通常寫在最後面 屬於前面的數據都沒撞到才會撞到default
                 msg = "unknown"
                 break;
         }
-
+        
         console.log(msg);
 
     </script>

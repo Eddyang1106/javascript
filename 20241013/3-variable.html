@@ -21,32 +21,32 @@
             console.log(b); // b是一個全域變數,我可以讀到他
             console.log(d); // d讀的倒是100
         }
-
         test();
-
         console.log(b);
         // console.log(d); //不認識d 因為他是個區間變數，我無法得知他
         console.clear();
-
+        ///////////////////////////////////////////////
+        function test2() {
+            var b = 100;
+            console.log(b);
+        }
+        console.log("b=",b);
         test2();
-        var b = 100;
-        console.log(b);
+        console.log("b =", b); // b = 200
+        ///////////////////////////////////////////
 
 
-        console.log("b =", b);
-
-        test3();
-
-        console.log("b =", b);
+        
         ////////////////////////////////
-        if (ture) {
+        console.log("e=", e);
+        if (true) {
             var e = 100; // if的{}不是一個缺間是一個區塊，他仍是一個全域變數
             console.log(e);
         }
-        consloe.log("e=", e);
+        console.log("e=", e);
 
         var e = true; //可以重新被宣告，但這是不太好的
-        consloe.log(e);
+        console.log(e);
 
     </script>
 </body>
